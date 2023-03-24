@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strings"
 	"sync" //importing custom package
 )
 
@@ -99,7 +100,7 @@ func readtxtfiles() {
 	defer i.Close()
 	h := bufio.NewReader(i)
 	defer i2.Close()
-	// h2 := bufio.NewReader(i2)
+	h2 := bufio.NewReader(i2)
 
 	// kindex := 1
 
@@ -119,70 +120,69 @@ func readtxtfiles() {
 		if err1 == io.EOF {
 			return
 		}
-		log.Println("end stirng is ok-  " + m1)
+		// log.Println("end stirng is ok-  " + m1)
 		// break
 		// log.Println("is ok-  " + m1)
-		// for {
-		// m2, err2 := h2.ReadString('\n')
-		// if err2 == io.EOF {
-		// 	return
-		// }
+		for {
+			m2, err2 := h2.ReadString('\n')
+			if err2 == io.EOF {
+				return
+			}
 
-		// m3 := strings.Replace(m2, "***", m1, 1)
-		// m3 = strings.Replace(m3, "\n", "", -1)
-		// m3 = strings.Replace(m3, " ", "", -1)
-		// // kindex++
+			m3 := strings.Replace(m2, "***", m1, 1)
+			m3 = strings.Replace(m3, "\n", "", -1)
+			m3 = strings.Replace(m3, " ", "", -1)
+			// kindex++
 
-		// log.Println("end stirng is ok-  " + m3)
+			log.Println("end stirng is ok-  " + m3)
+			// log.Fatalf("end stirng is ok-  %d ", kindex)
+			// break
+			// 这里是分界线
+			// h, err := http.Get(m3)
+			// // mhttpclient(m3)
+			// if err != nil {
+			// 	log.Println("--------prog is err-  " + m3)
+			// log.Fatalf("--------prog is err- %d --%s ", h.StatusCode, m3)
+			// log.Fatalf("--end is ok- %d --%s ", kindex, m3)
+			// 	// log.Fatalf("--------prog is err- --%s ", m3)
+			// 	continue
+			// }
 
-		// log.Fatalf("end stirng is ok-  %d ", kindex)
-		// break
-		// 这里是分界线
-		// h, err := http.Get(m3)
-		// // mhttpclient(m3)
-		// if err != nil {
-		// 	log.Println("--------prog is err-  " + m3)
-		// log.Fatalf("--------prog is err- %d --%s ", h.StatusCode, m3)
-		// log.Fatalf("--end is ok- %d --%s ", kindex, m3)
-		// 	// log.Fatalf("--------prog is err- --%s ", m3)
-		// 	continue
-		// }
+			// if h.StatusCode == http.StatusOK { //如果获取状态不为 200,输出状态程序结束
+			// 	log.Println("is ok-  " + m3)
+			// }
+			// 这里是分界线
+			// log.Println("--+++-prog is err-  " + m3)
+			// client := http.Client{}
 
-		// if h.StatusCode == http.StatusOK { //如果获取状态不为 200,输出状态程序结束
-		// 	log.Println("is ok-  " + m3)
-		// }
-		// 这里是分界线
-		// log.Println("--+++-prog is err-  " + m3)
-		// client := http.Client{}
+			// request, err := http.NewRequest("GET", m3, nil)
+			// if err != nil {
+			// 	log.Fatalf("http.NewRequest error: %s", err)
+			// 	continue
+			// }
+			// // ----- modify start --------
+			// // q := request.URL.Query()
+			// // q.Add("keyword", "完美世界")
+			// // request.URL.RawQuery = q.Encode()
+			// // ----- modify end --------
+			// request.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
+			// request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+			// request.Header.Set("Connection", "keep-alive")
 
-		// request, err := http.NewRequest("GET", m3, nil)
-		// if err != nil {
-		// 	log.Fatalf("http.NewRequest error: %s", err)
-		// 	continue
-		// }
-		// // ----- modify start --------
-		// // q := request.URL.Query()
-		// // q.Add("keyword", "完美世界")
-		// // request.URL.RawQuery = q.Encode()
-		// // ----- modify end --------
-		// request.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
-		// request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		// request.Header.Set("Connection", "keep-alive")
+			// resp, err := client.Do(request)
+			// if err != nil {
+			// 	log.Println("--------prog is err-  " + m3)
+			// 	fmt.Println(err)
+			// 	continue
+			// }
+			// defer resp.Body.Close()
+			// if resp.StatusCode != 200 {
+			// 	log.Fatalf("status code error: %d %s", resp.StatusCode, resp.Status)
+			// }
 
-		// resp, err := client.Do(request)
-		// if err != nil {
-		// 	log.Println("--------prog is err-  " + m3)
-		// 	fmt.Println(err)
-		// 	continue
-		// }
-		// defer resp.Body.Close()
-		// if resp.StatusCode != 200 {
-		// 	log.Fatalf("status code error: %d %s", resp.StatusCode, resp.Status)
-		// }
+			// log.Println("is ok-  " + m3)
 
-		// log.Println("is ok-  " + m3)
-
-		// }
+		}
 
 		// }
 
