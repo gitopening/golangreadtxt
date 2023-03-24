@@ -26,7 +26,62 @@ func getOldStrArr() []string {
 	// fmt.Println("test文件中的原始内容：", read)
 
 	oldstrarr := strings.Split(string(read), "\n")
-	fmt.Println("test文件中的原始内容长度：", len(oldstrarr))
+	fmt.Println("getOldStrArr_tenurl文件中的原始内容长度：", len(oldstrarr))
 	return oldstrarr
 
+}
+
+func getUrlStrArr() []string {
+	//一次性读取文件
+	read2, err := ioutil.ReadFile("urlallgo.php")
+	if err != nil {
+		fmt.Printf("文件打开失败", err.Error())
+		return nil
+	}
+	// fmt.Printf(string(read))
+	// fmt.Println("test文件中的原始内容：", read)
+
+	gostrarr := strings.Split(string(read2), "\n")
+	fmt.Println("urlallgo文件中的原始内容长度：", len(gostrarr))
+	return gostrarr
+
+}
+
+func getAllUrlStrArr() []string {
+	var urlsInRead []string
+	oldstrarrs := getOldStrArr()
+	gotstrarrs := getUrlStrArr()
+	// for i := 1; i <= len(gotstrarrs); i++ {
+	// 	m1 := strings.Replace(gotstrarrs[i], "\n", "", -1)
+	// 	m2 := strings.Replace(m1, " ", "", -1)
+	// 	// for k := 1; k <= len(oldstrarrs); k++ {
+	// 	// 	m21 := strings.Replace(oldstrarrs[k], "\n", "", -1)
+	// 	// 	m22 := strings.Replace(m21, " ", "", -1)
+	// 	// 	m3 := strings.Replace(m2, "***", m22, 1)
+	// 	// 	urlsInRead = append(urlsInRead, m3) //添加到数组中
+	// 	// }
+
+	// 	for index, val := range oldstrarrs {
+	// 		fmt.Printf("inde%s  --- =%d, value=%c\n", m2, index, val)
+	// 		m21 := strings.Replace(val, "\n", "", -1)
+	// 		m22 := strings.Replace(m21, " ", "", -1)
+	// 		m3 := strings.Replace(m2, "***", m22, 1)
+	// 	}
+
+	// }
+
+	for index, _ := range gotstrarrs {
+		// fmt.Printf("index=%d, value=%c\n", index, gotstrarrs[index])
+		m1 := strings.Replace(gotstrarrs[index], "\n", "", -1)
+		m2 := strings.Replace(m1, " ", "", -1)
+		for index2, _ := range oldstrarrs {
+			// fmt.Printf("index=%d, value=%c\n", index, oldstrarrs[index2])
+			m21 := strings.Replace(oldstrarrs[index2], "\n", "", -1)
+			m22 := strings.Replace(m21, " ", "", -1)
+			m3 := strings.Replace(m2, "***", m22, 1)
+			urlsInRead = append(urlsInRead, m3) //添加到数组中
+
+		}
+	}
+	return urlsInRead
 }

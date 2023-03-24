@@ -22,12 +22,12 @@ var waitgroup sync.WaitGroup
 var names []string
 
 func main() {
-	oldStrarr := getOldStrArr()
+	gotoStrarr := getAllUrlStrArr()
 	// fmt.Printf(string(oldStrarr))
 
-	fmt.Print("error:%s", oldStrarr)
+	fmt.Println("组合数组最终--内容长度:", len(gotoStrarr))
 
-	readtxtfiles()
+	// readtxtfiles()
 
 	// for i := 1; i <= len(names); i++ {
 	// 	waitgroup.Add(1)
