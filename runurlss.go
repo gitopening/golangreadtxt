@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"log"
+	"net/http"
 	"sync" //importing custom package
 )
 
@@ -17,22 +18,41 @@ func init() {
 var waitgroup sync.WaitGroup
 
 func main() {
-	gotoStrarr := getAllUrlStrArr()
-	// if err = ioutil.WriteFile("./endphp", []string(gotoStrarr), 0666); err != nil {
-	// 	fmt.Println("Writefile Error =", err)
-	// 	return
-	// }
-	// os.Create("./endphp") //创建文件
-	dstFile, err := os.Create("./end_all_url_.php")
+	gotoStrarr := getAllUrlFromFile()
+
+	// length := len(gotoStrarr)
+	nReq := 20 // 10个并发请求
+	var wg sync.WaitGroup
+	wg.Add(nReq)
+	for i := 0; i < 20; i++ {
+		// goto_url := gotoStrarr[i]
+		for _, value := range gotoStrarr {
+			go func() {
+				defer wg.Done()
+				reqHTTP(value)
+			}()
+		}
+	}
+	wg.Wait()
+
+	// reqHTTP("http://192.168.37.144:40185/www.01fy.cn")
+
+}
+
+func reqHTTP(url string) {
+	// 简单的http Get
+	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println(err.Error())
+		// log.Printf("-----Http request error: %s\n", err, "-----Http request error: %s\n", url)
+		log.Printf("-----Http request error:", err, "----", url)
 		return
 	}
-	defer dstFile.Close()
-	// io.WriteString("./endphp", gotoStrarr)
-	// dstFile.WriteString(string(gotoStrarr))
-	for _, value := range gotoStrarr {
-		dstFile.WriteString(value + "\n")
-	}
+	// data := make([]byte, resp.ContentLength)
+	// resp.Body.Read(data)
+	// log.Printf("Http response: %s\n", data)
 
+	if resp.StatusCode == http.StatusOK {
+		//如果获取状态不为 200,输出状态程序结束
+		log.Println("run is ok-  " + url)
+	}
 }

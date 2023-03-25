@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 	//importing custom package
 )
@@ -65,4 +66,42 @@ func getAllUrlStrArr() []string {
 		}
 	}
 	return urlsInRead
+}
+
+func getAllUrlFromFile() []string {
+
+	//一次性读取文件
+	read2, err := ioutil.ReadFile("end_all_url_.php")
+	if err != nil {
+		fmt.Printf("文件打开失败", err.Error())
+		return nil
+	}
+	// fmt.Printf(string(read))
+	// fmt.Println("test文件中的原始内容：", read)
+
+	allUrls := strings.Split(string(read2), "\n")
+	fmt.Println("end_all_url_文件中的原始内容长度：", len(allUrls))
+	return allUrls
+
+}
+
+func readToOnefile() {
+	gotoStrarr := getAllUrlStrArr()
+	// if err = ioutil.WriteFile("./endphp", []string(gotoStrarr), 0666); err != nil {
+	// 	fmt.Println("Writefile Error =", err)
+	// 	return
+	// }
+	// os.Create("./endphp") //创建文件
+	dstFile, err := os.Create("./end_all_url_.php")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer dstFile.Close()
+	// io.WriteString("./endphp", gotoStrarr)
+	// dstFile.WriteString(string(gotoStrarr))
+	for _, value := range gotoStrarr {
+		dstFile.WriteString(value + "\n")
+	}
+
 }
