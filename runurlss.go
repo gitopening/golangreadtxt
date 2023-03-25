@@ -23,7 +23,7 @@ func main() {
 	fmt.Println("组合数组最终--内容长度:", len(gotoStrarr))
 
 	for i := 1; i <= len(gotoStrarr); i++ {
-		waitgroup.Add(1)
+		// waitgroup.Add(1)
 		//计数器+1 可以认为是队列+1
 		h, err := http.Get(gotoStrarr[i])
 
@@ -40,7 +40,9 @@ func main() {
 			log.Println("run is ok- -", i, "-value=  ", gotoStrarr[i])
 		}
 
+		// preemptall() //循环中反复设置抢占标记
+
 	}
-	waitgroup.Wait() //进行阻塞等待 如果 队列不跑完 一直不终止
+	// waitgroup.Wait() //进行阻塞等待 如果 队列不跑完 一直不终止
 
 }

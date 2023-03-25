@@ -29,4 +29,5 @@ func main2() {
 	fmt.Println("Geometrical shape properties22222")
 	fmt.Printf("area of rectangle %.2f\n", rectangle.Area(rectLen, rectWidth))
 	fmt.Printf("diagonal of the rectangle %.2f ", rectangle.Diagonal(rectLen, rectWidth))
+
 }
