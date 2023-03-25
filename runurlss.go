@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
+	"os"
 	"sync" //importing custom package
 )
 
@@ -19,30 +18,21 @@ var waitgroup sync.WaitGroup
 
 func main() {
 	gotoStrarr := getAllUrlStrArr()
-
-	fmt.Println("组合数组最终--内容长度:", len(gotoStrarr))
-
-	for i := 1; i <= len(gotoStrarr); i++ {
-		// waitgroup.Add(1)
-		//计数器+1 可以认为是队列+1
-		h, err := http.Get(gotoStrarr[i])
-
-		if err != nil {
-			//panic(err)
-			// fmt.Printf("index=%d, value=%c\n", index, gotstrarrs[index])
-			log.Println("is err-", i, "-value=  ", gotoStrarr[i])
-			continue
-
-		}
-
-		if h.StatusCode == http.StatusOK {
-			//如果获取状态不为 200,输出状态程序结束
-			log.Println("run is ok- -", i, "-value=  ", gotoStrarr[i])
-		}
-
-		// preemptall() //循环中反复设置抢占标记
-
+	// if err = ioutil.WriteFile("./endphp", []string(gotoStrarr), 0666); err != nil {
+	// 	fmt.Println("Writefile Error =", err)
+	// 	return
+	// }
+	// os.Create("./endphp") //创建文件
+	dstFile, err := os.Create("./end_all_url_.php")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
 	}
-	// waitgroup.Wait() //进行阻塞等待 如果 队列不跑完 一直不终止
+	defer dstFile.Close()
+	// io.WriteString("./endphp", gotoStrarr)
+	// dstFile.WriteString(string(gotoStrarr))
+	for _, value := range gotoStrarr {
+		dstFile.WriteString(value + "\n")
+	}
 
 }
